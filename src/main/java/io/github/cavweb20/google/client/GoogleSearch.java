@@ -57,7 +57,6 @@ public class GoogleSearch
                 searchString.append(arg).append("+");
             }
         }
-
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(GoogleURL);
         Response response = target.
@@ -66,7 +65,6 @@ public class GoogleSearch
                 queryParam("rsz", "large").
                 queryParam("q", searchString).
                 request(MediaType.APPLICATION_JSON).get();
-
         try
         {
             mapper.getDeserializationConfig()
@@ -77,7 +75,7 @@ public class GoogleSearch
                 LOG.debug("JSON Response:" + entity);
             }
             data = mapper.readValue(entity, GoogleResponse.class);
-            if (response.getStatus() == 200)
+            if (response.getStatus() == 200 && data.getResponseStatus() == 200)
             {
                 int i = 0;
                 results = data.getResponseData().getResults();
@@ -97,25 +95,25 @@ public class GoogleSearch
             else
             {
                 LOG.error("Google Search Error: " + data.getResponseDetails());
-                LOG.error("Status: " + data.getResponseStatus());
+                LOG.error("Google Search Status: " + data.getResponseStatus());
                 response.close();
-                System.exit(-1);
+                System.exit(1);
             }
         }
         catch (JsonParseException e)
         {
             LOG.error(e.getLocalizedMessage(), e);
-            System.exit(-1);
+            System.exit(2);
         }
         catch (JsonMappingException e)
         {
             LOG.error(e.getLocalizedMessage(), e);
-            System.exit(-1);
+            System.exit(3);
         }
         catch (IOException e)
         {
             LOG.error(e.getLocalizedMessage(), e);
-            System.exit(-1);
+            System.exit(4);
         }
     }
 

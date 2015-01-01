@@ -8,7 +8,6 @@ public class Page
 {
 
     private String start;
-
     private int label;
 
     /**
