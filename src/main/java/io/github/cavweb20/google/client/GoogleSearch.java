@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +63,8 @@ public class GoogleSearch
                 queryParam("safe", "moderate").
                 queryParam("rsz", "large").
                 queryParam("q", searchString).
-                request(MediaType.APPLICATION_JSON).get();
+                request().
+                accept("text/javascript").get();
         try
         {
             mapper.getDeserializationConfig()
