@@ -56,7 +56,7 @@ public class GoogleSearch
                 searchString.append(arg).append("+");
             }
         }
-        Client client = ClientBuilder.newClient();
+        Client client = ClientBuilder.newBuilder().build();
         WebTarget target = client.target(GoogleURL);
         Response response = target.
                 queryParam("v", "1.0").
